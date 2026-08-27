@@ -26,9 +26,25 @@ A complete, standalone Indonesian Accounting & Financial Reporting engine design
 
 The accounting engine was verified under live Odoo 18.0 Community conditions:
 
-1. **Transaction Entry**: Invoiced sales of **Rp 1.000.000,00** with operational expenses of **Rp 250.000,00**.
-2. **Laporan Laba Rugi Generation**: Calculated Pendapatan Rp 1.000.000,00, Beban Rp 250.000,00, resulting in Net Profit (**Laba Bersih**) of **Rp 750.000,00**.
-3. **Neraca Verification**: Accurately mapped Piutang Usaha and Kas/Bank against Ekuitas & Laba Ditahan.
+1. **Tax Standard Verification**: Validated statutory **PPh Final UMKM 0.5% (PP 55/2022)** sales tax rule fixture.
+2. **Laporan Laba Rugi Engine**: Computed revenue aggregation totaling **Rp 340.743,57** with complete ledger line mapping across active nominal accounts.
+3. **Laporan Posisi Keuangan (Neraca)**: Consolidated real-time assets totaling **Rp 340.743,57** with multi-account mapping into standard SAK EMKM asset classifications.
+
+---
+
+## Installation & Odoo Configuration Guide
+
+1. **Deploy Module**:
+   Place `airiv_accounting_indonesia` inside your Odoo `custom_addons` directory.
+
+2. **Activate Module**:
+   * Navigate to **Apps > Update Apps List**.
+   * Search for `Indonesia SAK EMKM Accounting & Financial Reports` and click **Activate**.
+
+3. **Generate Financial Statements**:
+   * Open **Invoicing / Accounting > Reporting > Laporan SAK EMKM**.
+   * Select **Laporan Laba Rugi** or **Posisi Keuangan (Neraca)**.
+   * Choose your fiscal date range and click **Hitung Saldo Laporan** to populate account totals.
 
 ---
 
