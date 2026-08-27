@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_airiv_financial_report_tree" model="ir.ui.view">
+            <field name="name">airiv.financial.report.list</field>
+            <field name="model">airiv.financial.report</field>
+            <field name="arch" type="xml">
+                <list string="Laporan Keuangan SAK EMKM">
+                    <field name="name"/>
+                    <field name="report_type"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="laba_bersih" invisible="report_type != 'laba_rugi'"/>
+                    <field name="total_aset" invisible="report_type != 'neraca'"/>
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_airiv_financial_report_form" model="ir.ui.view">
+            <field name="name">airiv.financial.report.form</field>
+            <field name="model">airiv.financial.report</field>
+            <field name="arch" type="xml">
+                <form string="Laporan Keuangan SAK EMKM">
+                    <header>
+                        <button name="action_calculate_report" string="Hitung Saldo Laporan" type="object" class="btn-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,calculated"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Judul Laporan Keuangan"/>
+                            <h1><field name="name" placeholder="misal: Laporan Laba Rugi Q1 2026"/></h1>
+                        </div>
+                        <group>
+                            <group string="Parameter Periode">
+                                <field name="report_type" widget="radio"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                            </group>
+                            <group string="Entitas &amp; Mata Uang">
+                                <field name="company_id"/>
+                                <field name="currency_id"/>
+                            </group>
+                        </group>
+
+                        <!-- Laba Rugi Summary KPI Cards -->
+                        <div class="row mt16 mb16" invisible="report_type != 'laba_rugi'">
+                            <div class="col-md-3 text-center">
+                                <div class="card p-2 bg-light border-0 shadow-sm">
+                                    <small class="text-muted">Total Pendapatan</small>
+                                    <h4 class="text-success font-weight-bold"><field name="total_pendapatan"/></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="card p-2 bg-light border-0 shadow-sm">
+                                    <small class="text-muted">Beban Pokok (HPP)</small>
+                                    <h4 class="text-warning font-weight-bold"><field name="total_hpp"/></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="card p-2 bg-light border-0 shadow-sm">
+                                    <small class="text-muted">Beban Operasional</small>
+                                    <h4 class="text-danger font-weight-bold"><field name="total_beban_ops"/></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="card p-2 bg-light border-0 shadow-sm">
+                                    <small class="text-muted">Laba / (Rugi) Bersih</small>
+                                    <h4 class="text-primary font-weight-bold"><field name="laba_bersih"/></h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Neraca Summary KPI Cards -->
+                        <div class="row mt16 mb16" invisible="report_type != 'neraca'">
+                            <div class="col-md-4 text-center">
+                                <div class="card p-2 bg-light border-0 shadow-sm">
+                                    <small class="text-muted">Total Aset</small>
+                                    <h4 class="text-primary font-weight-bold"><field name="total_aset"/></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="card p-2 bg-light border-0 shadow-sm">
+                                    <small class="text-muted">Total Liabilitas</small>
+                                    <h4 class="text-danger font-weight-bold"><field name="total_liabilitas"/></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="card p-2 bg-light border-0 shadow-sm">
+                                    <small class="text-muted">Total Ekuitas</small>
+                                    <h4 class="text-success font-weight-bold"><field name="total_ekuitas"/></h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <notebook>
+                            <page string="Rincian Pos Akuntansi SAK EMKM">
+                                <field name="line_ids">
+                                    <list string="Rincian Saldo Akun" editable="bottom">
+                                        <field name="section"/>
+                                        <field name="account_id"/>
+                                        <field name="name"/>
+                                        <field name="amount" sum="Total"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_airiv_financial_report_income" model="ir.actions.act_window">
+            <field name="name">Laporan Laba Rugi SAK EMKM</field>
+            <field name="res_model">airiv.financial.report</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('report_type', '=', 'laba_rugi')]</field>
+            <field name="context">{'default_report_type': 'laba_rugi', 'default_name': 'Laporan Laba Rugi Periode Berjalan'}</field>
+        </record>
+
+        <record id="action_airiv_financial_report_balance" model="ir.actions.act_window">
+            <field name="name">Laporan Posisi Keuangan (Neraca)</field>
+            <field name="res_model">airiv.financial.report</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('report_type', '=', 'neraca')]</field>
+            <field name="context">{'default_report_type': 'neraca', 'default_name': 'Laporan Posisi Keuangan (Neraca)'}</field>
+        </record>
+    </data>
+</odoo>

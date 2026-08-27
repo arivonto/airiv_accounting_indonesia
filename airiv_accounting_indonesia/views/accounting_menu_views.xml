@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_airiv_accounting_root"
+                  name="Laporan SAK EMKM"
+                  parent="account.menu_finance_reports"
+                  sequence="1"/>
+
+        <menuitem id="menu_airiv_report_income"
+                  name="Laporan Laba Rugi"
+                  parent="menu_airiv_accounting_root"
+                  action="action_airiv_financial_report_income"
+                  sequence="1"/>
+
+        <menuitem id="menu_airiv_report_balance"
+                  name="Posisi Keuangan (Neraca)"
+                  parent="menu_airiv_accounting_root"
+                  action="action_airiv_financial_report_balance"
+                  sequence="2"/>
+    </data>
+</odoo>
