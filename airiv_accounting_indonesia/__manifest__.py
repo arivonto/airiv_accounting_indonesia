@@ -21,6 +21,7 @@ Standard SAK EMKM Accounting Engine & Financial Statements for Odoo 18 Community
 """,
     'author': 'Riv Cloud Management',
     'website': 'https://airiv.id',
+    'url': 'https://github.com/arivonto/airiv_accounting_indonesia/blob/18.0/static/description/index.html',
     'license': 'LGPL-3',
     'price': 0.0,
     'currency': 'EUR',
